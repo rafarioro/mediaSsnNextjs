@@ -3,31 +3,42 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import './cStyle.css'
+import { VscSearch } from "react-icons/vsc";
 
-export default function Search() {
-  const [search, setSearch] = useState('')
-  const router = useRouter()
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    router.push(`/search?id=${search}`)
-  }
+export default function Search() { 
 
-  return (
-    <form 
-        className='form-container'
-        onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Enter an id to verify"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <button 
-        type="submit"
-        >
-        Search
-    </button>
-    </form>
-  )
+    const router = useRouter()
+    const [ isFocused, setIsFocused ] = useState(false);
+    const [idItem, setIdItem] = useState('');
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        
+        
+        //navigate to the [id] route with the idItem as the param
+        router.push(`/${idItem}`)
+
+    }
+
+    return (
+        <form 
+            className={`form-container ${isFocused ? 'focused' : ''}`}
+            onSubmit={handleSubmit}>
+            <input
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                type="text"
+                placeholder="Enter an id to verify"
+                value={idItem}
+                onChange={(e) => setIdItem(e.target.value)}
+            />
+            <button  
+                type="submit" 
+                >
+                <VscSearch />
+                Search
+            </button>
+        </form>
+    )
 }

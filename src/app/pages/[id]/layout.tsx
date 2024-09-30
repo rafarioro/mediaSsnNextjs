@@ -1,9 +1,7 @@
 import type { Metadata } from "next"; 
-import "./globals.css";
- 
-
+import "./globals.css"; 
 export const metadata: Metadata = {
-  title: "Media SSN",
+  title: "Media Item",
   description: "Your media verified", 
 };
 
@@ -14,7 +12,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body >
+      <body>
         {children}
       </body>
     </html>
