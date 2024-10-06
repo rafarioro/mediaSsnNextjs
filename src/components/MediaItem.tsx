@@ -119,7 +119,7 @@ export default function MediaItem({ id }: { id: string }) {
                     : 
                     (
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', color: '#fff' }}>
-                            <p style={{ fontSize: '20px',  color: '#fff' }}>Error loading media</p>
+                            <p style={{ fontSize: '20px',  color: '#fff' }}>Error loading media {error}</p>
                         </div>
                     )
                 }
