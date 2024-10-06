@@ -13,11 +13,9 @@ export default function Search() {
     const [idItem, setIdItem] = useState('');
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        
-        
+        e.preventDefault() 
         //navigate to the [id] route with the idItem as the param
-        router.push(`/pages/${idItem}`)
+        router.push(`/${idItem}`)
 
     }
 
