@@ -17,7 +17,7 @@ export default function Search() {
         
         
         //navigate to the [id] route with the idItem as the param
-        router.push(`/${idItem}`)
+        router.push(`/pages/${idItem}`)
 
     }
 
