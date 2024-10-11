@@ -5,13 +5,19 @@ import "../app/globals.css"
 import React, { useState, useEffect } from 'react' 
 import Spinner from './Spinner'
 import ReactPlayer from 'react-player'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'image' | 'video' }) {
     
+    const router = useRouter()
     const [mediaLoading, setMediaLoading] = useState<boolean>(true)  
     const [error, setError] = useState<boolean>(false) 
     const [videoUrl, setVideoUrl] = useState<string>('')
 
+    const handleTryAgain = () => {
+        router.push('/')
+    }
 
     const getVideoUrlFromServer = async () => {
         fetch(`https://imagessnbackend.onrender.com/api/media/v/${id}`, {
@@ -25,6 +31,10 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
             console.log(data.url)
             setVideoUrl(data.url)
         })
+        .catch(err => {
+            console.log(err)
+            setError(true)
+        })
     }
 
     useEffect(() => {
@@ -33,14 +43,33 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
         }
     }, [])
 
+    useEffect(() => {
+
+        return () => {
+            setError(false)
+        }
+
+    }, [])
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',}}>
-            <div> xxxx
-                {mediaType}
-            </div>
+
             <div style={{  position: 'relative',  width: '400px', height: '400px' }}>
                 {
-                    mediaType === 'image' ? 
+                    error ?
+                    (
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', color: '#fff' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', fontSize: '20px',  color: '#fff', textAlign: 'center', alignItems: 'center', justifyContent: 'center' }}>Error. Check the ID or file type
+                                <div 
+                                    onClick={handleTryAgain}
+                                    style={{ marginTop: '30px', cursor: 'pointer', padding: '10px 20px', borderRadius: '15px', backgroundColor: '#0056b3', color: '#fff' }}
+                                    >
+                                    Try again
+                                </div>
+                            </div>
+                        </div>
+                    )
+                    : mediaType === 'image' ? 
                     (
                         <>
                             <Image  
@@ -53,6 +82,7 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
                                 priority={true} 
                                 onLoadStart={() => setMediaLoading(true)}
                                 onLoad={() => setMediaLoading(false)}
+                                onError={() => setError(true)}
                                 />                        
                             {
                                 mediaLoading &&
@@ -70,7 +100,8 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
                                     url={videoUrl} 
                                     width='100%'
                                     height='100%'
-                                    controls={true} 
+                                    controls={true}
+                                    onError={() => setError(true)}
                                     />      
                             </div> 
                         </>

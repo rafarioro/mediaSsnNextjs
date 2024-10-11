@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import './cStyle.css'
 import { VscSearch } from "react-icons/vsc";
-
+import { IoImageOutline } from "react-icons/io5";
+import { MdVideoLibrary } from "react-icons/md";
 
 export default function Search() { 
 
@@ -30,12 +31,14 @@ export default function Search() {
                     onClick={() => setMediaType('image')} 
                     className={ mediaType === 'image' ? 'mediaTypeBtn active' : 'mediaTypeBtn'}
                 >
+                    <IoImageOutline size={23} style={{ marginRight: '9px' }} />
                     Image
                 </div>
                 <div 
                     onClick={() => setMediaType('video')} 
                     className={ mediaType === 'video' ? 'mediaTypeBtn active' : 'mediaTypeBtn'}
                 >
+                    <MdVideoLibrary size={23} style={{ marginRight: '9px' }} />
                     Video
                 </div>
             </div>
@@ -55,7 +58,9 @@ export default function Search() {
                     type="submit" 
                     >
                     <VscSearch />
-                    <span className="searchBtntext">Search</span>
+                    <span className="searchBtntext">
+                        Verify {mediaType === 'image' ? 'Image' : 'Video'}
+                    </span>
                 </button>
             </form>
         </div>
