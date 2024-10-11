@@ -133,7 +133,7 @@ a.secondary {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   .page {
     padding: 32px;
     padding-bottom: 80px;
@@ -141,6 +141,7 @@ a.secondary {
 
   .main {
     align-items: center;
+    width: 90%;
   }
 
   .main ol {
@@ -166,6 +167,12 @@ a.secondary {
     align-items: center;
     justify-content: center;
   }
+
+  .logoContainer {
+    width: 300px;
+    height: 150px;
+  }
+
 }
 
 @media (prefers-color-scheme: dark) {

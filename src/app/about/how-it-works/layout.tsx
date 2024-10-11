@@ -1,10 +1,9 @@
 import type { Metadata } from "next"; 
-import "./globals.css";
- 
+import "../../globals.css";
 
 export const metadata: Metadata = {
-  title: "Media SSN",
-  description: "Your media verified, check your media against the effects of Artificial Intelligence", 
+  title: "How it works",
+  description: "How it works", 
 };
 
 export default function RootLayout({
@@ -14,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body >
+      <body>
         {children}
       </body>
     </html>

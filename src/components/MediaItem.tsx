@@ -14,6 +14,7 @@ export default function MediaItem({ id }: { id: string }) {
     const [error, setError] = useState<boolean>(false)
 
     const [videoUrl, setVideoUrl] = useState<string>('')
+    
     const getMediaType = async () => {
      
         setMediaLoading(true) 
@@ -63,8 +64,6 @@ export default function MediaItem({ id }: { id: string }) {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',}}>
-
-
             <div style={{  position: 'relative',  width: '400px', height: '400px' }}>
                 {
                     typeLoading ? 
@@ -124,6 +123,13 @@ export default function MediaItem({ id }: { id: string }) {
                     )
                 }
             </div>
+
+            <div>
+                {
+                    JSON.stringify(mediaType)
+                }
+            </div>
+
         </div>
     )
 }
