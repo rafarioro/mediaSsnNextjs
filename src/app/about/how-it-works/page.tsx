@@ -1,7 +1,4 @@
-import React from 'react'
-import MediaItem from '@/components/MediaItem'
-import { IoArrowBackOutline } from "react-icons/io5"; 
-import Link from 'next/link'
+import React from 'react' 
 
 export default function page({ params }: { params: { id: string } }) {
  

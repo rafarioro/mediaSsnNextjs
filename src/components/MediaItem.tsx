@@ -4,8 +4,7 @@ import Image from 'next/image'
 import "../app/globals.css"
 import React, { useState, useEffect } from 'react' 
 import Spinner from './Spinner'
-import ReactPlayer from 'react-player'
-import Link from 'next/link'
+import ReactPlayer from 'react-player' 
 import { useRouter } from 'next/navigation'
 
 export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'image' | 'video' }) {

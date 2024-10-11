@@ -94,11 +94,7 @@
   .form-container button:hover {
     background-color: #0056b3;
   }
-
-  .searchBtntext {
-    /* display: none; */
-  }
-
+ 
   @media (max-width: 800px) {
     .searchContainer {
         width: 100%;
