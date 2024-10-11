@@ -56,7 +56,7 @@ export default function page( ) {
           To exercise these rights, please contact us at [Insert Contact Email].
         </p>
         <p>
-          7. Children’s Privacy
+          7. Privacy for Children
           Media SSN is not intended for use by children under the age of 13. We do not knowingly collect personal information from children under 13. If we learn that we have collected such information, we will take steps to delete it.
         </p>  
         <p>
