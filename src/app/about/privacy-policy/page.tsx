@@ -53,7 +53,7 @@ export default function page( ) {
           Access and Update: Request access to your personal information and make corrections if necessary.
           Delete: Request the deletion of your personal information and media files from our servers, subject to any legal obligations we may have to retain certain data.
           Opt-Out: You can opt out of marketing communications at any time by following the unsubscribe instructions provided in those communications.
-          To exercise these rights, please contact us at [Insert Contact Email].
+          To exercise these rights, please contact us at support@mediassn.com.
         </p>
         <p>
           7. Privacy for Children
@@ -61,7 +61,7 @@ export default function page( ) {
         </p>  
         <p>
           8. International Data Transfers
-          If you are accessing our services from outside of [Insert Your Country], please note that your information may be transferred to, and processed in, a different country where data protection laws may differ. By using our app, you consent to the transfer of your information to our servers located in [Insert Country].
+          If you are accessing our services from outside of the United States, please note that your information may be transferred to, and processed in, the United States where data protection laws may differ. By using our app, you consent to the transfer of your information to our servers located in the United States.
         </p>
         <p>
           9. Changes to This Privacy Policy
