@@ -40,7 +40,7 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
         if(mediaType === 'video') {
             getVideoUrlFromServer()
         }
-    }, [])
+    }, [mediaType])
 
     useEffect(() => {
 
