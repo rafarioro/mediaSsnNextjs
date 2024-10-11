@@ -16,10 +16,9 @@ export default function Search() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault() 
 
-        if(idItem === '') return
-
+        if(idItem === '') return 
         //navigate to the [id] route with the idItem as the param
-        router.push(`/${idItem}`)
+        router.push(`/${mediaType}/${idItem}`)
 
     }
 

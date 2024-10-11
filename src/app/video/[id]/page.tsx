@@ -25,7 +25,7 @@ export default function page({ params }: { params: { id: string } }) {
           Back to Search
         </Link>
 
-        <MediaItem id={params.id} mediaType={'image'} />
+        <MediaItem id={params.id} mediaType='video' />
       </div>
     )
   }

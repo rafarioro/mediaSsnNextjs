@@ -6,43 +6,12 @@ import React, { useState, useEffect } from 'react'
 import Spinner from './Spinner'
 import ReactPlayer from 'react-player'
 
-export default function MediaItem({ id }: { id: string }) {
+export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'image' | 'video' }) {
     
-    const [mediaLoading, setMediaLoading] = useState<boolean>(true)
-    const [mediaType, setMediaType] = useState<'image' | 'video' | ''>('')
-    const [typeLoading, setTypeLoading] = useState<boolean>(true)
-    const [error, setError] = useState<boolean>(false)
-
+    const [mediaLoading, setMediaLoading] = useState<boolean>(true)  
+    const [error, setError] = useState<boolean>(false) 
     const [videoUrl, setVideoUrl] = useState<string>('')
-    
-    const getMediaType = async () => {
-     
-        setMediaLoading(true) 
-        setTypeLoading(true)
 
-        fetch(`https://imagessnbackend.onrender.com/api/media/gmt`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id: id })
-        })
-        .then(res => res.json())
-        .then(data => {
-
-            if (data.type === 'video') {
-                getVideoUrlFromServer()
-            }
-
-            setMediaType(data.type)
-            setTypeLoading(false)
-        })
-        .catch(err => {
-            console.log(err)
-            setMediaLoading(false)
-            setError(true)
-        }) 
-    }
 
     const getVideoUrlFromServer = async () => {
         fetch(`https://imagessnbackend.onrender.com/api/media/v/${id}`, {
@@ -59,20 +28,19 @@ export default function MediaItem({ id }: { id: string }) {
     }
 
     useEffect(() => {
-        getMediaType()
+        if(mediaType === 'video') {
+            getVideoUrlFromServer()
+        }
     }, [])
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',}}>
+            <div> xxxx
+                {mediaType}
+            </div>
             <div style={{  position: 'relative',  width: '400px', height: '400px' }}>
                 {
-                    typeLoading ? 
-                    (
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                            <Spinner />
-                        </div>
-                    ) 
-                    : mediaType === 'image' ? 
+                    mediaType === 'image' ? 
                     (
                         <>
                             <Image  
@@ -91,8 +59,7 @@ export default function MediaItem({ id }: { id: string }) {
                                 <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                                     <Spinner />
                                 </div>
-                            }
-
+                            } 
                         </>
                     )  
                      : mediaType === 'video' && videoUrl !== '' ?
@@ -104,15 +71,8 @@ export default function MediaItem({ id }: { id: string }) {
                                     width='100%'
                                     height='100%'
                                     controls={true} 
-                                    />     
-                        
-                            </div>
-                            {/* {
-                                mediaLoading &&
-                                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                                    <Spinner />
-                                </div>
-                            } */}
+                                    />      
+                            </div> 
                         </>
                     )
                     : 
@@ -124,11 +84,7 @@ export default function MediaItem({ id }: { id: string }) {
                 }
             </div>
 
-            <div>
-                {
-                    JSON.stringify(mediaType)
-                }
-            </div>
+
 
         </div>
     )

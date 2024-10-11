@@ -7,8 +7,7 @@ export default function page({ params }: { params: { id: string } }) {
  
 
     return (
-      <div className='mediaContainer'> 
-
+      <div className='mediaContainer'>  
         <Link href='/' style={{ 
             position: 'absolute', 
             top: '30px', 
@@ -25,7 +24,7 @@ export default function page({ params }: { params: { id: string } }) {
           Back to Search
         </Link>
 
-        <MediaItem id={params.id} mediaType={'image'} />
+        <MediaItem id={params.id} mediaType='image' />
       </div>
     )
   }
