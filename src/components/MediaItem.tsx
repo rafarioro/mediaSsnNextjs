@@ -6,6 +6,9 @@ import React, { useState, useEffect } from 'react'
 import Spinner from './Spinner'
 import ReactPlayer from 'react-player' 
 import { useRouter } from 'next/navigation'
+import { TbListDetails } from "react-icons/tb";
+import SpinnerSmall from './SpinnerSmall'
+
 
 export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'image' | 'video' }) {
     
@@ -13,6 +16,13 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
     const [mediaLoading, setMediaLoading] = useState<boolean>(true)  
     const [error, setError] = useState<boolean>(false) 
     const [videoUrl, setVideoUrl] = useState<string>('')
+    const [viewDetails, setViewDetails] = useState<boolean>(false)
+    const [getDetailsLoading, setGetDetailsLoading] = useState<boolean>(false)
+
+    const handleViewDetails = () => {
+        setViewDetails(true)
+        getDetailsFromServer()
+    }
 
     const handleTryAgain = () => {
         router.push('/')
@@ -36,6 +46,13 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
         })
     }
 
+    const getDetailsFromServer = async () => {
+        setGetDetailsLoading(true)
+        
+        setGetDetailsLoading(false)
+    }   
+
+
     useEffect(() => {
         if(mediaType === 'video') {
             getVideoUrlFromServer()
@@ -51,9 +68,9 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
     }, [])
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',}}>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center',}}>
 
-            <div style={{  position: 'relative',  width: '400px', height: '400px' }}>
+            <div style={{  position: 'relative',  width: '400px', height: '500px' }}>
                 {
                     error ?
                     (
@@ -80,7 +97,7 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
                                 placeholder="blur"
                                 priority={true} 
                                 onLoadStart={() => setMediaLoading(true)}
-                                onLoad={() => setMediaLoading(false)}
+                                onLoad={() => setMediaLoading(false)} 
                                 onError={() => setError(true)}
                                 />                        
                             {
@@ -114,7 +131,36 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
                 }
             </div>
 
+            <div className='viewDetails'>
+                {
+                    !viewDetails &&
+                    (
+                        <div 
+                            className='viewDetailsBtn' 
+                            onClick={handleViewDetails}
+                            >
+                                {
+                                    getDetailsLoading ?
+                                    (
+                                        <SpinnerSmall />
+                                    )
+                                    :
+                                    (
+                                        <>
+                                            <TbListDetails   size={20} />
+                                            <span className="viewDetailsBtntext">
+                                                View Details
+                                            </span>
+                                        </>
+                                    )
+                                }
 
+                        </div>
+                    )
+                } 
+
+
+            </div> 
 
         </div>
     )

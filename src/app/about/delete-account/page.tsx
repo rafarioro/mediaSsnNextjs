@@ -21,8 +21,7 @@ export default function page( ) {
         </ul>
         <p>
           If you have any questions or need assistance with account deletion, please contact our support team at support@mediassn.com.
-        </p>
-        
+        </p> 
       </div>
     )
   }

@@ -2,10 +2,10 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import './cStyle.css'
-import { VscSearch } from "react-icons/vsc";
+import './cStyle.css' 
 import { IoImageOutline } from "react-icons/io5";
 import { MdVideoLibrary } from "react-icons/md";
+import { GoVerified } from "react-icons/go";
 
 export default function Search() { 
 
@@ -57,9 +57,9 @@ export default function Search() {
                 <button  
                     type="submit" 
                     >
-                    <VscSearch />
+                    <GoVerified color='white' size={20} />
                     <span className="searchBtntext">
-                        Verify {mediaType === 'image' ? 'Image' : 'Video'}
+                        Verify 
                     </span>
                 </button>
             </form>

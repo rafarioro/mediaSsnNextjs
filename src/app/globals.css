@@ -55,3 +55,46 @@ a {
   width: 400px;
   height: auto;
 }
+
+.viewDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-left: 20px;
+  height: 500px;
+}
+
+.viewDetailsBtn {
+  display: flex;
+  min-width: 200px;
+  min-height: 50px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 15px;
+  transition: all 0.4s ease-in-out;
+  color: white;
+  font-weight: 500;
+  font-size: 15px;
+  border: 3px solid white;
+
+}
+
+.viewDetailsBtn:hover {
+  background-color: white;
+  color: #0a0a0a;
+}
+
+.viewDetailsBtntext { 
+  font-size: 16px; 
+}
+
+.viewDetailsBtn svg {
+  margin-right: 10px; 
+
+}

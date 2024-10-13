@@ -31,11 +31,17 @@
   
 }
 
+.searchBtntext {
+  color:  white;
+  font-size: 16px; 
+}
+
 .mediaTypeBtn.active {
   color: #0056b3;
   font-size: 15px; 
   border: 3px solid #0057b3d5; 
   transition: all 0.4s ease-in-out;
+  font-style: bold;
 }
 
 .form-container {
