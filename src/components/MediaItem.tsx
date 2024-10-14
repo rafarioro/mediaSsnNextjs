@@ -129,8 +129,7 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
                         </div>
                     )
                 }
-            </div>
-
+            </div> 
             <div className='viewDetails'>
                 {
                     !viewDetails &&
@@ -153,15 +152,11 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
                                             </span>
                                         </>
                                     )
-                                }
-
+                                } 
                         </div>
                     )
-                } 
-
-
-            </div> 
-
+                }   
+            </div>  
         </div>
     )
 }
