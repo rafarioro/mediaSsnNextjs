@@ -7,18 +7,20 @@ import { IoImageOutline } from "react-icons/io5";
 import { MdVideoLibrary } from "react-icons/md";
 import { GoVerified } from "react-icons/go";
 import { FaArrowRightLong } from "react-icons/fa6";
+// import sessionStorage from 'node:sessionStorage'
+
 
 export default function Search() { 
 
     const router = useRouter()
     const [ isFocused, setIsFocused ] = useState(false);
     const [idItem, setIdItem] = useState('');
-    const [mediaType, setMediaType] = useState<'image' | 'video' | 'none'>(sessionStorage.getItem('type') ? sessionStorage.getItem('type') as 'image' | 'video' : 'none');
+    const [mediaType, setMediaType] = useState<'image' | 'video' | 'none'>(window.sessionStorage.getItem('type') ? window.sessionStorage.getItem('type') as 'image' | 'video' : 'none');
     const [error, setError] = useState<string>('')
 
     const handleSelectMediaType = (type: 'image' | 'video') => {
         setMediaType(type)
-        sessionStorage.setItem('type', type)
+        window.sessionStorage.setItem('type', type)
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
