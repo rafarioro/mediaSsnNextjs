@@ -6,7 +6,7 @@ import './cStyle.css'
 import { IoImageOutline } from "react-icons/io5";
 import { MdVideoLibrary } from "react-icons/md";
 import { GoVerified } from "react-icons/go";
-import { FaArrowRightLong } from "react-icons/fa6";
+// import { FaArrowRightLong } from "react-icons/fa6";
 // import sessionStorage from 'node:sessionStorage'
 
 
@@ -15,12 +15,11 @@ export default function Search() {
     const router = useRouter()
     const [ isFocused, setIsFocused ] = useState(false);
     const [idItem, setIdItem] = useState('');
-    const [mediaType, setMediaType] = useState<'image' | 'video' | 'none'>(window.sessionStorage.getItem('type') ? window.sessionStorage.getItem('type') as 'image' | 'video' : 'none');
+    const [mediaType, setMediaType] = useState<'image' | 'video'>('image');
     const [error, setError] = useState<string>('')
 
     const handleSelectMediaType = (type: 'image' | 'video') => {
         setMediaType(type)
-        window.sessionStorage.setItem('type', type)
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -71,7 +70,7 @@ export default function Search() {
         <div className='searchContainer'>
 
             <div className='mediaTypeContainer'>
-
+                {/* 
                 {
                     mediaType === 'none' &&
                     <div style={{
@@ -85,7 +84,7 @@ export default function Search() {
                         <span style={{ marginRight: '10px' }}>Select</span>
                         <FaArrowRightLong size={20}  />
                     </div>
-                } 
+                }  */}
 
                 <div 
                     onClick={() => handleSelectMediaType('image')} 
