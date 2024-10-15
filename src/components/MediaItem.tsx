@@ -263,7 +263,7 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
                                     <FiInfo size={30} />
                                 </span>
                                 
-                                <span >
+                                <span style={{marginTop: '5px'}}>
                                     {itemData.data.description}
                                 </span>
                             </div>

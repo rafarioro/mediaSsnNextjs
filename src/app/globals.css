@@ -142,8 +142,16 @@ a {
   margin-top: 10px;
   /* width: 100%;  */
   width: 430px;
-  height: 150px;
+  max-height: 250px;
   overflow-y: scroll;
+
+  /* hide the scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
 }
 
 .mediaItemContainer {
