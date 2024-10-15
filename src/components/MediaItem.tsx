@@ -8,7 +8,20 @@ import ReactPlayer from 'react-player'
 import { useRouter } from 'next/navigation'
 import { TbListDetails } from "react-icons/tb";
 import SpinnerSmall from './SpinnerSmall'
+import { FiUser, FiEye, FiInfo  } from "react-icons/fi";
+import { CiCalendar } from "react-icons/ci";
+import TimeAgo from 'react-timeago'
 
+type ItemData = {
+    _id: string,
+    type: 'image' | 'video' ,
+    data: {
+        creator: string,
+        createdAt: string,
+        description: string,
+        views: string[]
+    }
+}
 
 export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'image' | 'video' }) {
     
@@ -16,12 +29,22 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
     const [mediaLoading, setMediaLoading] = useState<boolean>(true)  
     const [error, setError] = useState<boolean>(false) 
     const [videoUrl, setVideoUrl] = useState<string>('')
-    const [viewDetails, setViewDetails] = useState<boolean>(false)
-    const [getDetailsLoading, setGetDetailsLoading] = useState<boolean>(false)
+    // const [viewDetails, setViewDetails] = useState<boolean>(false)
+    const [getItemData, setGetItemData] = useState<'loading' | 'success' | 'error' | 'notStarted'>('notStarted')
 
-    const handleViewDetails = () => {
-        setViewDetails(true)
-        getDetailsFromServer()
+    const [itemData, setItemData] = useState<ItemData>({
+        _id: '',
+        type: mediaType,
+        data: {
+            creator: '',
+            createdAt: '',
+            description: '',
+            views: []
+        }
+    })
+
+    const handleViewDetails = () => { 
+        getData()
     }
 
     const handleTryAgain = () => {
@@ -36,20 +59,28 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
             }, 
         })
         .then(res => res.json())
-        .then(data => {
-            console.log(data.url)
-            setVideoUrl(data.url)
+        .then(data => { setVideoUrl(data.url); setMediaLoading(false) })
+        .catch(err => { console.log(err); setError(true) })
+    }
+
+    const getData = async () => {
+        setGetItemData('loading')
+        
+        fetch(`https://imagessnbackend.onrender.com/api/media/gmd/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }, 
+        })
+        .then(res => res.json())
+        .then(data => { 
+            setItemData(data)
+            setGetItemData('success')
         })
         .catch(err => {
             console.log(err)
-            setError(true)
-        })
-    }
-
-    const getDetailsFromServer = async () => {
-        setGetDetailsLoading(true)
-        
-        setGetDetailsLoading(false)
+            setGetItemData('error') 
+        }) 
     }   
 
 
@@ -63,14 +94,24 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
 
         return () => {
             setError(false)
+            setGetItemData('notStarted')
+            setItemData({
+                _id: '',
+                type: mediaType,
+                data: {
+                    creator: '',
+                    createdAt: '',
+                    description: '',
+                    views: []
+                }
+            })
         }
 
     }, [])
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center',}}>
-
-            <div style={{  position: 'relative',  width: '400px', height: '500px' }}>
+        <div className='mediaItemContainer'>  
+            <div className={`${mediaType === 'image' ? 'imageItemContainer' : 'videoItemContainer'}`} > 
                 {
                     error ?
                     (
@@ -87,7 +128,15 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
                     )
                     : mediaType === 'image' ? 
                     (
-                        <>
+                        <div style={{
+                            display: 'flex', 
+                            justifyContent: 'center', 
+                            alignItems: 'center', 
+                            height: '500px',
+                            width: '500px', 
+                            position: 'relative',
+                        }}
+                        >
                             <Image  
                                 src={`https://imagessnbackend.onrender.com/m/${id}`} 
                                 alt={`Image ${id}`}     
@@ -98,7 +147,7 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
                                 priority={true} 
                                 onLoadStart={() => setMediaLoading(true)}
                                 onLoad={() => setMediaLoading(false)} 
-                                onError={() => setError(true)}
+                                onError={() => setError(true)} 
                                 />                        
                             {
                                 mediaLoading &&
@@ -106,23 +155,21 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
                                     <Spinner />
                                 </div>
                             } 
-                        </>
+                        </div>
                     )  
                      : mediaType === 'video' && videoUrl !== '' ?
                      (
-                        <>
-                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '700px', width: '500px' }}>
-                                <ReactPlayer 
-                                    url={videoUrl} 
-                                    width='100%'
-                                    height='100%'
-                                    controls={true}
-                                    onError={() => setError(true)}
-                                    />      
-                            </div> 
-                        </>
+                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '500px', width: '500px' }}>
+                            <ReactPlayer 
+                                url={videoUrl} 
+                                width='100%'
+                                height='100%'
+                                controls={true}
+                                onError={() => setError(true)}
+                                />      
+                        </div>  
                     )
-                    : 
+                    : error &&
                     (
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', color: '#fff' }}>
                             <p style={{ fontSize: '20px',  color: '#fff' }}>Error loading media {error}</p>
@@ -132,14 +179,15 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
             </div> 
             <div className='viewDetails'>
                 {
-                    !viewDetails &&
+                    !mediaLoading && !error &&
                     (
-                        <div 
+                        <button 
                             className='viewDetailsBtn' 
                             onClick={handleViewDetails}
+                            disabled={getItemData === 'loading' || getItemData === 'success'}
                             >
                                 {
-                                    getDetailsLoading ?
+                                    getItemData === 'loading' ?
                                     (
                                         <SpinnerSmall />
                                     )
@@ -148,14 +196,85 @@ export default function MediaItem({ id, mediaType }: { id: string, mediaType: 'i
                                         <>
                                             <TbListDetails   size={20} />
                                             <span className="viewDetailsBtntext">
-                                                View Details
+                                                
+                                                {
+                                                    getItemData === 'success' ?
+                                                    (
+                                                        <>
+                                                            Details
+                                                        </>
+                                                    )
+                                                    :
+                                                    (
+                                                        <>
+                                                            View Details
+                                                        </>
+                                                    )
+                                                }
+
                                             </span>
                                         </>
                                     )
                                 } 
-                        </div>
+                        </button>
                     )
                 }   
+
+                {
+                    getItemData === 'loading' ? 
+                    (
+                        <>
+                            <div className='loadingSkeleton' style={{ width: '100px'}}> </div>
+                            <div className='loadingSkeleton'> </div>
+                            <div className='loadingSkeleton' style={{ height: '50px'}}> </div>
+                            <div className='loadingSkeleton'> </div>
+                            <div className='loadingSkeleton'> </div>
+                        </>
+                        
+                    )
+                    : getItemData === 'success' && 
+                    (
+                        <div className='itemDataSuccess'>
+                            <div className='dataItem'>
+                                <FiUser size={30} />
+                                {itemData.data.creator}
+                            </div>
+                            <div className='dataItem'>
+                                <CiCalendar size={30} /> 
+
+                                { 
+                                    new Date(itemData.data.createdAt).toLocaleString('en-US', { 
+                                        timeZone: 'GMT',
+                                        year: 'numeric', 
+                                        month: 'long', 
+                                        day: 'numeric', 
+                                        hour: 'numeric', 
+                                        minute: 'numeric', 
+                                        second: 'numeric'
+                                    })
+                                }
+                                (GMT) -
+
+                                <TimeAgo date={itemData.data.createdAt} />
+
+                            </div>
+                            <div className='description'>
+                                <span>
+                                    <FiInfo size={30} />
+                                </span>
+                                
+                                <span >
+                                    {itemData.data.description}
+                                </span>
+                            </div>
+                            <div className='dataItem'>
+                                <FiEye size={30} />
+                                {itemData.data.views.length > 0 ? itemData.data.views.length : 'No Views'}
+                            </div>
+                        </div>
+                    )
+                }
+
             </div>  
         </div>
     )

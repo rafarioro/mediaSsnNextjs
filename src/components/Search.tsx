@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import './cStyle.css' 
 import { IoImageOutline } from "react-icons/io5";
@@ -8,7 +8,7 @@ import { MdVideoLibrary } from "react-icons/md";
 import { GoVerified } from "react-icons/go";
 // import { FaArrowRightLong } from "react-icons/fa6";
 // import sessionStorage from 'node:sessionStorage'
-
+import SpinnerSmall from './SpinnerSmall'
 
 export default function Search() { 
 
@@ -17,6 +17,7 @@ export default function Search() {
     const [idItem, setIdItem] = useState('');
     const [mediaType, setMediaType] = useState<'image' | 'video'>('image');
     const [error, setError] = useState<string>('')
+    const [searchLoading, setSearchLoading] = useState<boolean>(false)
 
     const handleSelectMediaType = (type: 'image' | 'video') => {
         setMediaType(type)
@@ -24,11 +25,15 @@ export default function Search() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault() 
+        setSearchLoading(true)
 
         // if the idItem is not a type of BSON ObjectId, return
         // if(!idItem.match(/^[0-9a-fA-F]{24}$/)) return
 
-        if(idItem === '') return 
+        if(idItem === ''){
+            setSearchLoading(false)
+            return
+        } 
         //navigate to the [id] route with the idItem as the param
         router.push(`/${mediaType}/${idItem}`)
 
@@ -65,6 +70,12 @@ export default function Search() {
         setIdItem(e.target.value)
         
     }
+
+    useEffect(() => {
+        return () => {
+            setSearchLoading(false)
+        }
+    }, [])
 
     return ( 
         <div className='searchContainer'>
@@ -115,11 +126,26 @@ export default function Search() {
                 />
                 <button  
                     type="submit" 
+                    disabled={searchLoading}
                     >
-                    <GoVerified color='white' size={20} />
-                    <span className="searchBtntext">
-                        Verify 
-                    </span>
+                        {
+                            searchLoading ?
+                            (
+                                <SpinnerSmall />
+                            )
+                            :
+                            (
+                                <>
+                                    <GoVerified color='white' size={20} />
+                                    <span className="searchBtntext">
+                                        Verify 
+                                    </span>
+                                </>
+                                 
+                            )
+                        }
+
+
                 </button>
             </form>
         </div>
